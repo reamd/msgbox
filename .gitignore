@@ -1,0 +1,6 @@
+# IntelliJ project files
+/.idea
+/node_modules
+/styles
+/dist
+/.sass-cache
