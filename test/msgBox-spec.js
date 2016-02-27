@@ -7,7 +7,6 @@ describe("msgBox", function() {
         var msgbox = new msgBox({});
         msgbox.should.be.a('object');
     });
-
     it("check it property", function() {
         var msgbox = new msgBox({});
         msgbox.should.have.property('width').with.equal('');

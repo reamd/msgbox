@@ -8,7 +8,7 @@
         });
     } else if (typeof exports === 'object') {
         // Node.js
-        module.exports.api = factory;
+        module.exports.msgBox = factory;
 
     } else {
         // Browser globals
