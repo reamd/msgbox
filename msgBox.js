@@ -105,7 +105,8 @@
         btnNode +
         '</div>' +
         '</div>';
-    document.body.appendChild(newNode);
+    document.body.insertBefore(newNode, document.body.firstChild);
+    //document.body.appendChild(newNode);
     //获取弹窗高度，然后设置margin-top
     if(!!newNode.firstChild.getAttribute('style')) {
         newNode.firstChild.setAttribute('style',newNode.firstChild.getAttribute('style') + ';margin-top:-' + newNode.firstChild.offsetHeight/2 +'px');
