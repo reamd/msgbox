@@ -47,7 +47,7 @@
         newNode.setAttribute('class', 'ui-dialog show');
     };
     this.closeMsg = function () {
-        newNode.setAttribute('class', 'ui-dialog');
+        document.body.removeChild(newNode);
     };
 
     this.callback = opt.callback || function () {
