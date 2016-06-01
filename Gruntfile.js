@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         banner: '/*!\n' +
-        ' * <%= pkg.name %> v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
+        ' * <%= pkg.name %> v<%= pkg.version %> (<%= pkg.repository.url %>)\n' +
         ' * Copyright <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
         ' * Licensed under MIT\n' +
         ' */\n',
@@ -18,13 +18,13 @@ module.exports = function(grunt) {
               src: 'dist/'
           },
           temp: {
-              src: ['test/coverage', 'example/styles/*.map']
+              src: ['test/coverage']
           }
         },
 
         //js语法检查
         jshint: {
-            files: ['*.js','!Gruntfile.js'],
+            files: ['src/*.js'],
             options: {
                 globals:{
                     jshintrc:'.jshintrc'
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         },
         //css语法检查
         csslint:{
-            files:['example/styles/*.css'],
+            files:['src/*.css'],
             options:{
                 globals:{
                     csslintrc:'.csslintrc'
@@ -71,7 +71,7 @@ module.exports = function(grunt) {
                 expand: true,
                 cwd: 'scss',
                 src: ['*.scss'],
-                dest: 'example/styles',
+                dest: 'src/',
                 ext: '.css'
                 }]
             }
@@ -86,10 +86,10 @@ module.exports = function(grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: '',
-                    src: ['*.js','!Gruntfile.js','!karma.conf.js'],
-                    dest: 'dist',
-                    ext: '.js'
+                    cwd: 'src/',
+                    src: ['*.js'],
+                    dest: 'dist/',
+                    ext: '.min.js'
                 }]
             }
         },
@@ -98,43 +98,14 @@ module.exports = function(grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: 'example/styles',
+                    cwd: 'src/',
                     src: '*.css',
-                    dest: 'dist/styles',
-                    ext: '.css'
+                    dest: 'dist/',
+                    ext: '.min.css'
                 }]
-            }
-        },
-        //html压缩
-        htmlmin: {
-            build: {
-                options: {
-                    removeComments: true,
-                    collapseWhitespace: true
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'example',
-                        src: '*.html',
-                        dest: 'dist/',
-                        ext: '.html'
-                    }
-                ]
             }
         },
 
-        //copy功能
-        copy: {
-            main: {
-                files: [{
-                        expand: true,
-                        cwd: '/',
-                        src: [''],
-                        dest: 'dist/'
-                }]
-            }
-        },
         //为文件插入banner
         usebanner: {
             options: {
@@ -142,7 +113,7 @@ module.exports = function(grunt) {
                 banner: '<%= banner %>'
             },
             files: {
-                src: ['dist/styles/*.css', 'dist/*.js']
+                src: ['dist/*.css', 'dist/*.js']
             }
         },
         //自动化单元测试
@@ -166,9 +137,6 @@ module.exports = function(grunt) {
     grunt.registerTask('check', ['jshint', 'scsslint', 'htmllint']);
 
     // 推送版本前执行的工作
-    grunt.registerTask('prePush', ['clean:temp']);
-
-    // 默认被执行的任务列表。
     grunt.registerTask('default', ['clean:dist', 'uglify', 'cssmin', 'usebanner']);
 
 };

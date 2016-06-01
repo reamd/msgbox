@@ -32,16 +32,11 @@
     this.height = opt.height || '';
 
     this.title = opt.title || '';
-    this.cntTitle = opt.cntTitle || '';
-    this.cntBody = opt.cntBody || '';
+    this.body = opt.body || '';
     this.btnLabel = opt.btnLabel || [];
 
     this.visible = typeof opt.visible === 'boolean' ? opt.visible : true;
-    this.isTitle = typeof opt.isTitle === 'boolean' ? opt.isTitle : true;
     this.isClose = typeof opt.isClose === 'boolean' ? opt.isClose : true;
-    this.isCntTitle = typeof opt.isCntTitle === 'boolean' ? opt.isCntTitle : false;
-    this.isCntBody = typeof opt.isCntBody === 'boolean' ? opt.isCntBody : true;
-    this.isBtnLabel = typeof opt.isBtnLabel === 'boolean' ? opt.isBtnLabel : true;
 
     this.openMsg = function () {
         newNode.setAttribute('class', 'ui-dialog show');
@@ -50,7 +45,7 @@
         document.body.removeChild(newNode);
     };
 
-    this.callback = opt.callback || function () {
+    this.complete = opt.callback || function () {
         };
     this.firstCallback = opt.firstCallback || function () {
         };
@@ -66,28 +61,25 @@
     } else if (this.height) {
         cntAttr = 'style="height:' + this.height + '"';
     }
-    if (this.isTitle) {
+    if(this.title === '') {
+        h3Node = '<h3>&nbsp;</h3>';
+    }else {
         h3Node = '<h3>' + this.title + '</h3>';
     }
+    cntBodyNode = '<div>' + this.body + '</div>';
+
     if (this.isClose) {
         closeNode = '<span class="ui-dialog-close" onFocus="this.blur()"></span>';
     }
-    if (this.isCntTitle) {
-        cntTitleNode = '<h4>' + this.cntTitle + '</h4>';
-    }
-    if (this.isCntBody) {
-        cntBodyNode = '<div>' + this.cntBody + '</div>';
-    }
-    if (this.isBtnLabel) {
-        if (Object.prototype.toString.call(this.btnLabel) === "[object Array]") {
-            if (this.btnLabel.length === 1) {
-                btnNode = '<button class="save alone" onFocus="this.blur()">' + this.btnLabel[0] + '</button>';
-            } else if (this.btnLabel.length > 1) {
-                btnNode = '<button class="save" onFocus="this.blur()">' + this.btnLabel[0] + '</button>' +
-                    '<button class="cancel" onFocus="this.blur()">' + this.btnLabel[1] + '</button>';
-            }
+    if (Object.prototype.toString.call(this.btnLabel) === "[object Array]") {
+        if (this.btnLabel.length === 1) {
+            btnNode = '<button class="save alone" onFocus="this.blur()">' + this.btnLabel[0] + '</button>';
+        } else if (this.btnLabel.length > 1) {
+            btnNode = '<button class="save" onFocus="this.blur()">' + this.btnLabel[0] + '</button>' +
+                '<button class="cancel" onFocus="this.blur()">' + this.btnLabel[1] + '</button>';
         }
     }
+
     if (this.visible) {
         newClass.value = 'ui-dialog show';
     } else {
@@ -106,14 +98,13 @@
         '</div>' +
         '</div>';
     document.body.insertBefore(newNode, document.body.firstChild);
-    //document.body.appendChild(newNode);
     //获取弹窗高度，然后设置margin-top
-    if(!!newNode.firstChild.getAttribute('style')) {
-        newNode.firstChild.setAttribute('style',newNode.firstChild.getAttribute('style') + ';margin-top:-' + newNode.firstChild.offsetHeight/2 +'px');
-    }else {
-        newNode.firstChild.setAttribute('style','margin-top:-' + newNode.firstChild.offsetHeight/2 +'px');
+    if (!!newNode.firstChild.getAttribute('style')) {
+        newNode.firstChild.setAttribute('style', newNode.firstChild.getAttribute('style') + ';margin-top:-' + newNode.firstChild.offsetHeight / 2 + 'px');
+    } else {
+        newNode.firstChild.setAttribute('style', 'margin-top:-' + newNode.firstChild.offsetHeight / 2 + 'px');
     }
-    setTimeout(this.callback, 0);
+    setTimeout(this.complete, 0);
     setTimeout(function () {
         if (_self.isClose) {
             newNode.firstChild.firstChild.lastChild.addEventListener('click', function () {
