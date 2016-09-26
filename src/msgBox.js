@@ -39,10 +39,12 @@
     this.isClose = typeof opt.isClose === 'boolean' ? opt.isClose : true;
 
     this.openMsg = function () {
+        this.classOpt('noScroll',true);
         newNode.setAttribute('class', 'ui-dialog show');
     };
     this.closeMsg = function () {
         document.body.removeChild(newNode);
+        this.classOpt('noScroll',false);
     };
 
     this.complete = opt.callback || function () {
@@ -52,6 +54,36 @@
     this.secondCallback = opt.secondCallback || function () {
             _self.closeMsg();
         };
+    //增加class相关方法
+    this.classOpt = function(clsName, flag){
+      var className = document.body.getAttribute('class'),
+          resName = '';
+      if(flag){//新增
+          if(className){//body中存在class
+            if(className.indexOf(clsName) > -1){
+                return;
+            }else {
+                className += ' ' + clsName;
+                document.body.setAttribute('class', className);
+            }
+          }else {
+              document.body.setAttribute('class', clsName);
+          }
+      }else {//移除
+          if(className && className === clsName){
+            document.body.removeAttribute('class');
+          }else {
+            if(className.indexOf(' '+ clsName +' ') > -1){
+                resName = ' '+ clsName +' ';
+            }else if(className.indexOf(' '+ clsName) > -1){
+                resName = ' '+ clsName;
+            }else if(className.indexOf(clsName+' ') > -1){
+                resName = clsName+' ';
+            }
+            document.body.setAttribute('class', className.replace(resName,''));
+          }
+      }
+    };
 
     if (this.width) {
         cntAttr = 'style="width:' + this.width + ';min-width:' + this.minWidth + ';max-width:' + this.maxWidth + '"';
@@ -82,6 +114,7 @@
 
     if (this.visible) {
         newClass.value = 'ui-dialog show';
+        this.classOpt('noScroll',true);
     } else {
         newClass.value = 'ui-dialog';
     }

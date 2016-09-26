@@ -2,6 +2,10 @@
   padding: 0;
   margin: 0; }
 
+.noScroll {
+   overflow: hidden;
+}
+
 .ui-dialog {
   position: fixed;
   z-index: 100;
