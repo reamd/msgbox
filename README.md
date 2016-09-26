@@ -24,7 +24,7 @@
         btnLabel: ['确定', '取消'], //设置弹窗底部按钮标题,数组形式，个数最多两个 默认为空
         visible: true,    //设置弹窗初始化时是否显示，默认为true
         isClose: true,    //设置弹窗是否显示右上角的关闭功能，默认为true
-        complete: function() {}, //设置弹窗初始化完成后运行的回调函数，默认为空函数
+        callback: function() {}, //设置弹窗初始化完成后运行的回调函数，默认为空函数
         firstCallback: function() {}, //设置弹窗底部按钮一回调函数，默认为空函数
         secondCallback: function() {} //设置弹窗底部按钮二回调函数，默认为关闭弹窗功能的函数
     });
